@@ -38,4 +38,18 @@ $ vue create dev-faker
  $ npm run serve
 ```
 
-### 5. VS Code
+### 5. VS Code에서 프로젝트 오픈
+```
+npm 라이브러리 설치/업데이트
+$ npm install
+
+npm 로컬서버 실행
+$ npm run serve
+
+> dev-faker@0.1.0 serve
+> vue-cli-service serve
+
+INFO  Starting development server...
+App running at:
+- Local:   http://localhost:8080/
+```
