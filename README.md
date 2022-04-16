@@ -22,5 +22,20 @@ $ vue -V
 $ vue create dev-faker
 
 (Vue 버전을 선택하는 항목에서 반드시 Vue 3 선택!
-Please pick a preset: Default ([Vue 3] babel, eslint)
+? Please pick a preset: (Use arrow keys)
+❯ Default ([Vue 3] babel, eslint)
+  Default ([Vue 2] babel, eslint)
+  Manually select features
 ```
+
+### 4. 프로젝트 폴더 확인
+```
+아래 내용 나오면 프로젝트 잘 생성됬는지 확인
+🎉  Successfully created project dev-faker.
+👉  Get started with the following commands:
+
+ $ cd dev-faker
+ $ npm run serve
+```
+
+### 5. VS Code
