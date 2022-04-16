@@ -53,3 +53,8 @@ INFO  Starting development server...
 App running at:
 - Local:   http://localhost:8080/
 ```
+
+### 6. Router 설치
+```
+$ npm i vue-router@next --save
+```
