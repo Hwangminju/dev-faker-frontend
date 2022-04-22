@@ -73,6 +73,9 @@ $ vue add vuetify
 vue3 참고
 (https://velog.io/@kdeun1/Vue-3-Composition-API-TypeScript-Vuex-4로-프로젝트-구성하기)
 
+### 8. Github Pages 연동
+https://codingapple.com/unit/vue-build-and-deploy-with-github-pages/
+
 ### [참고]
 
 ## Project setup
