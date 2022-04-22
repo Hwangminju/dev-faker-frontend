@@ -63,7 +63,8 @@ $ npm i vue-router@next --save
 ```
 $ npm install vuetify
 ```
-
+vue3 참고
+(https://velog.io/@kdeun1/Vue-3-Composition-API-TypeScript-Vuex-4로-프로젝트-구성하기)
 
 ### [참고]
 
