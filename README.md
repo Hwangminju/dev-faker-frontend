@@ -61,7 +61,14 @@ $ npm i vue-router@next --save
 
 ### 7. vuetify 설치
 ```
-$ npm install vuetify
+$ vue add vuetify
+
+? Choose a preset: 
+  Configure (advanced) 
+  Default (recommended) 
+  Vite Preview (Vuetify 3 + Vite) 
+  Prototype (rapid development) 
+❯ Vuetify 3 Preview (Vuetify 3) 
 ```
 vue3 참고
 (https://velog.io/@kdeun1/Vue-3-Composition-API-TypeScript-Vuex-4로-프로젝트-구성하기)
