@@ -59,7 +59,13 @@ App running at:
 $ npm i vue-router@next --save
 ```
 
-# dev-faker
+### 7. vuetify 설치
+```
+$ npm install vuetify
+```
+
+
+### [참고]
 
 ## Project setup
 ```
