@@ -59,7 +59,26 @@ App running at:
 $ npm i vue-router@next --save
 ```
 
-# dev-faker
+### 7. vuetify 설치
+```
+$ vue add vuetify
+
+? Choose a preset: 
+  Configure (advanced) 
+  Default (recommended) 
+  Vite Preview (Vuetify 3 + Vite) 
+  Prototype (rapid development) 
+❯ Vuetify 3 Preview (Vuetify 3) 
+```
+vue3 참고
+- https://velog.io/@kdeun1/Vue-3-Composition-API-TypeScript-Vuex-4로-프로젝트-구성하기
+- https://sunny921.github.io/posts/vuejs-router-02/
+
+
+### 8. Github Pages 연동
+https://codingapple.com/unit/vue-build-and-deploy-with-github-pages/
+
+### [참고]
 
 ## Project setup
 ```
