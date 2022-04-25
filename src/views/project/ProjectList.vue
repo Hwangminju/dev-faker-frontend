@@ -1,5 +1,7 @@
 <template>
-    <p>프로젝트 리스트 화면</p>
+    <div>
+        <v-data-table></v-data-table>
+    </div>
 </template>
 <script>
 export default {
