@@ -1,11 +1,11 @@
 <template>
     <v-app>
         <v-app-bar>
-            <span class="ml-5" style="font-size: 30px">Dev-Faker</span>
+            <router-link :to="/">Dev-Faker</router-link>
             <v-spacer></v-spacer>
-            <span class="gnb">Guide</span>
-            <span class="gnb">로그인</span>
-            <span class="gnb">회원가입</span>
+            <v-btn><span class="gnb">Guide</span></v-btn>
+            <v-btn><span class="gnb">로그인</span></v-btn>
+            <v-btn><span class="gnb">회원가입</span></v-btn>
         </v-app-bar>
         <v-main>
             <!--ModalView v-if="!isLogin" @close-modal="isLogin = true">
@@ -32,6 +32,6 @@ export default {
 
 <style>
 .gnb {
-    margin: 0 15px 0 20px;
+    margin: 0 10px 0 10px;
 }
 </style>
