@@ -71,7 +71,9 @@ $ vue add vuetify
 ❯ Vuetify 3 Preview (Vuetify 3) 
 ```
 vue3 참고
-(https://velog.io/@kdeun1/Vue-3-Composition-API-TypeScript-Vuex-4로-프로젝트-구성하기)
+- https://velog.io/@kdeun1/Vue-3-Composition-API-TypeScript-Vuex-4로-프로젝트-구성하기
+- https://sunny921.github.io/posts/vuejs-router-02/
+
 
 ### 8. Github Pages 연동
 https://codingapple.com/unit/vue-build-and-deploy-with-github-pages/

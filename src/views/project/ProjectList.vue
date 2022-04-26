@@ -1,11 +1,11 @@
 <template>
     <div>
-        <p>home page</p>
+        <v-data-table></v-data-table>
     </div>
 </template>
 <script>
 export default {
-    
+    name: 'ProjectList'
 }
 </script>
 <style>
