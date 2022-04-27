@@ -1,26 +1,15 @@
 <template> 
     <v-app id="app"> 
         <v-main> 
-<<<<<<< HEAD
-            <v-container 
-                style="position: relative; top: 20%; margin-left: 20%" 
-=======
             <v-container  
->>>>>>> 2e8e42bdefdb0d154b73f7e57179de05ac6afad8
                 class="text-xs-center"
             > 
                 <v-layout row wrap class="text-xs-center"> 
                     <v-flex> 
                         <v-card flat class="mx-auto" max-width="800">
-<<<<<<< HEAD
-                            <v-row style="margin-top: 60px">
-                                <v-col>
-                                    <v-form style="width: 400px; height: 300px">
-=======
                             <v-row>
                                 <v-col>
                                     <v-form>
->>>>>>> 2e8e42bdefdb0d154b73f7e57179de05ac6afad8
                                         <div class="mx-3">
                                             <v-icon color="black" size="30px">person</v-icon>
                                             ID
