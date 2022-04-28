@@ -16,7 +16,8 @@ import { ref } from "vue";
 export default {
   name: "CommonModal",
   setup() {
-    const isVisible = ref(false);
+    const isVisible = ref(null);
+    console.log(isVisible.value);
 
     // 부모 컴포넌트에서 접근하기 위한 함수를 선언합니다.
     const open = () => {
@@ -49,12 +50,12 @@ export default {
     width: 100%;
     height: 100%;
     background: rgba($color: #000000, $alpha: 0.2);
+}
 
 .modal-container {
-        background: white;
-        max-width: 320px;
-        width: 100%;
-        padding: 1.5rem;
-    }
+    background: white;
+    max-width: 320px;
+    width: 100%;
+    padding: 1.5rem;
 }
 </style>

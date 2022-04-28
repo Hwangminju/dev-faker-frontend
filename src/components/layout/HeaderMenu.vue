@@ -26,7 +26,7 @@ export default {
     setup() {
         const modal = ref(null);
         const modalContent = ref([
-        "LOGIN"
+            "LOGIN"
     ]);
     const result = ref("");
 

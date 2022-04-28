@@ -36,10 +36,10 @@
             <v-card-actions>
                 <v-btn 
                     color="#2c4f91"
-                    dark 
-                    large 
+                    dark
+                    large
                     block
-                    @click="confirm"
+                    @click="submit"
                 >
                 Login
                 </v-btn>
@@ -47,9 +47,9 @@
             <v-card-actions>
                 <v-btn 
                     color="#2c4f91"
-                    dark 
-                    large 
-                    block 
+                    dark
+                    large
+                    block
                     @click="cancel"
                 >
                 Cancel
@@ -67,6 +67,7 @@
 import CommonModal from "@/components/modal/CommonModal.vue";
 import { ref } from "vue";
 
+
 export default {
     name: "LoginModal",
     components: {
@@ -77,32 +78,60 @@ export default {
         content: Array,
     },
     setup() {
-        // 자식 컴포넌트를 핸들링하기 위한 ref
+        // 자식 컴포넌트(CommonModal)를 핸들링하기 위한 ref
         const baseModal = ref(null);
         // Promise 객체를 핸들링하기 위한 ref
         const resolvePromise = ref(null);
+        var userId = ref("");
+        var userPassword = ref("");
 
         const show = () => {
-        // baseModal을 직접 컨트롤합니다.
-        baseModal.value.open();
-        // Promise 객체를 사용하여, 현재 모달에서 확인 / 취소의
-        // 응답이 돌아가기 전까지 작업을 기다리게 할 수 있습니다.
-        return new Promise((resolve) => {
-            // resolve 함수를 담아 외부에서 사용합니다.
-            resolvePromise.value = resolve;
-        });
+            // baseModal을 직접 컨트롤합니다.
+            baseModal.value.open();
+            // Promise 객체를 사용하여, 현재 모달에서 확인, 취소의
+            // 응답이 돌아가기 전까지 작업을 기다리게 할 수 있습니다.
+            return new Promise((resolve) => {
+                // resolve 함수를 담아 외부에서 사용합니다.
+                resolvePromise.value = resolve;
+            });
         };
 
-        const confirm = () => {
-        baseModal.value.close();
-        resolvePromise.value(true);
+        const submit = () => {
+            // 사용자 로그인 정보 담아서 부모 컴포넌트로 전달
+
+            let saveData = {};
+            // let HOST = "http://dev-faker-be.herokuapp.com";
+            saveData.userId = userId;
+            saveData.userPassword = userPassword;
+            
+            try {
+                this.axios.post("/users", JSON.stringify(saveData), {
+                    headers: {
+                        "Content-Type": `application/json`
+                    }
+                })
+                .then(res => {
+                    if (res.status === 200) { 
+                        // 로그인 성공시 처리해줘야할 부분
+                        console.log("login success ->", res.data);
+                    }
+                }); 
+            } catch (error) { 
+                console.error(error);
+                console.log("login failed");
+            }
+
+            baseModal.value.close();
+            // 로그인 시도하면 user info 넘기기
+            resolvePromise.value(true);
         };
 
         const cancel = () => {
-        baseModal.value.close();
-        resolvePromise.value(false);
+            baseModal.value.close();
+            resolvePromise.value(false);
         };
-        return { baseModal, show, confirm, cancel };
+
+        return { baseModal, show, submit, cancel };
     },
 };
 </script>
