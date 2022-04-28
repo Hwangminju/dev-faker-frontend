@@ -1,8 +1,7 @@
 <template>
     <div>
+        <!-- 상단 메뉴 -->
         <HeaderMenu />
-        <button @click="handleClick">Open LoginModal</button>
-        <p>{{ result }}</p>
         <router-view />
         <LoginModal ref="modal" :content="modalContent" />
     </div>

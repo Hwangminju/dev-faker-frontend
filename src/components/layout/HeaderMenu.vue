@@ -1,5 +1,5 @@
 <template>
-    <v-row>
+    <v-row class="header">
         <v-col>
             <span class="title">Dev-Faker</span>
         </v-col>
@@ -19,16 +19,14 @@
 import { ref } from "vue";
 import LoginModal from "../modal/user/LoginModal.vue";
 export default {
-  name: "App",
-  components: {
-    LoginModal
-  },
-  setup() {
-    const modal = ref(null);
-    const modalContent = ref([
-      "확인/취소를 누르고",
-      "배경에 결과가 출력되는 것을",
-      "확인해보세요",
+    name: "App",
+    components: {
+        LoginModal
+    },
+    setup() {
+        const modal = ref(null);
+        const modalContent = ref([
+        "LOGIN"
     ]);
     const result = ref("");
 
@@ -59,5 +57,9 @@ export default {
     font-size: 20px;
     margin-top: 10px;
     margin-right: 20px;
+}
+.header {
+    background-color: lightgray;
+    padding: 10px;
 }
 </style>
