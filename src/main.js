@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
+import store from './store'
 
 loadFonts()
 
@@ -17,5 +18,6 @@ library.add(faUser, faKey)
 const app = createApp(App)
 app.component('font-awesome-icon', FontAwesomeIcon)
     .use(router)
+    .use(store)
     .use(vuetify)
     .mount('#app')

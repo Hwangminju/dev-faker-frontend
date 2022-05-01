@@ -66,8 +66,9 @@
 <script>
 import CommonModal from "@/components/modal/CommonModal.vue";
 import { ref } from "vue";
+import { useStore } from "vuex";
 import axios from "axios";
-axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*"
+axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
 
 export default {
     name: "LoginModal",
@@ -79,6 +80,8 @@ export default {
         content: Array,
     },
     setup() {
+        const store = useStore();
+
         // 자식 컴포넌트(CommonModal)를 핸들링하기 위한 ref
         const baseModal = ref(null);
         // Promise 객체를 핸들링하기 위한 ref
@@ -106,7 +109,7 @@ export default {
             saveData.userPassword = userPassword;
 
             try {
-                axios.get(HOST + "/users", JSON.stringify(saveData), {
+                axios.get(HOST + "/login", JSON.stringify(saveData), {
                     headers: {
                         "Content-Type": `application/json`,
                         "Access-Control-Allow-Origin": `*`
@@ -115,6 +118,7 @@ export default {
                 .then(res => {
                     if (res.status === 200) {
                         // 로그인 성공시 처리해줘야할 부분
+                        store.commit("setUserInfo", res.data);
                         console.log("login success ->", res.data);
                     }
                 });

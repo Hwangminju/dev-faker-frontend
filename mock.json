@@ -1,14 +1,9 @@
 {
-  "users": [
-    	{
-          	"userId": 10151080,
-          	"name": "황민주",
-          	"gender": "F"
-      	},
-      	{
-         	"id": 10163524,
-          	"name": "김민주",
-          	"gender": "F"
-      	}
-  	]
+  "login":
+	{
+		"userId": 10151080,
+		"userName": "황민주",
+		"token": "hwangminju",
+		"loginStatus": false
+	}
 }

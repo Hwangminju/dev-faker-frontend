@@ -17,7 +17,6 @@ export default {
   name: "CommonModal",
   setup() {
     const isVisible = ref(null);
-    console.log(isVisible.value);
 
     // 부모 컴포넌트에서 접근하기 위한 함수를 선언합니다.
     const open = () => {

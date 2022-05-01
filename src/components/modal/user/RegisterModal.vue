@@ -1,95 +1,139 @@
-<!-- 회원가입 모달 창 -->
 <template>
-    <div class="modal-mask" @click="close" v-show="show" transition="modal">
-        <div class="modal-container" @click.stop>
-            <div class="modal-header">
-                <h3>New Post</h3>
-            </div>
-
-            <div class="modal-body">
-                <label class="form-label">
-                    Title
-                    <input class="form-control">
-                </label>
-                <label class="form-label">
-                    Body
-                    <textarea rows="5" class="form-control"></textarea>
-                </label>
-            </div>
-
-            <div class="modal-footer text-right">
-                <button class="modal-default-button" @click="savePost()">
-                    Save
-                </button>
-            </div>
+    <CommonModal ref="baseModal">
+        <div class="content-container">
+            <p v-for="text in content" :key="text">
+            {{ text }}
+            </p>
         </div>
-    </div>
+        <v-form class="mt-3">
+            <div class="mx-3">
+                <div class="mx-3">
+                    <font-awesome-icon icon="user" />
+                    <span class="ml-2">ID</span>
+                </div>
+                <div class="mx-1">
+                    <v-text-field
+                        placeholder="아이디"
+                        v-model="userId"
+                        required
+                    ></v-text-field>
+                </div>
+            </div>
+            <div class="mx-3">
+                <div class="mx-3">
+                    <font-awesome-icon icon="key" />
+                    <span class="ml-2">Password</span>
+                </div>
+                <div class="mx-1">
+                    <v-text-field
+                        placeholder="비밀번호"
+                        type="password"
+                        v-model="userPassword"
+                        required
+                    ></v-text-field>
+                </div>
+            </div>
+            <v-card-actions>
+                <v-btn
+                    color="#2c4f91"
+                    dark
+                    large
+                    block
+                    @click="submit"
+                >
+                Login
+                </v-btn>
+            </v-card-actions>
+            <v-card-actions>
+                <v-btn
+                    color="#2c4f91"
+                    dark
+                    large
+                    block
+                    @click="cancel"
+                >
+                Cancel
+                </v-btn>
+            </v-card-actions>
+        </v-form>
+        <div class="buttons-container">
+            <!-- <button class="btn confirm" @click="confirm">확인</button> -->
+            <!-- <button class="btn cancel" @click="cancel">취소</button> -->
+        </div>
+    </CommonModal>
 </template>
 
-<style>
-* {
-    box-sizing: border-box;
-}
+<script>
+import CommonModal from "@/components/modal/CommonModal.vue";
+import { ref } from "vue";
+import axios from "axios";
+axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*"
 
-.modal-mask {
-    position: fixed;
-    z-index: 9998;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, .5);
-    transition: opacity .3s ease;
-}
+export default {
+    name: "LoginModal",
+    components: {
+        CommonModal,
+    },
+    // 렌더링할 텍스트를 가져옵니다.
+    props: {
+        content: Array,
+    },
+    setup() {
+        // 자식 컴포넌트(CommonModal)를 핸들링하기 위한 ref
+        const baseModal = ref(null);
+        // Promise 객체를 핸들링하기 위한 ref
+        const resolvePromise = ref(null);
+        var userId = ref(null);
+        var userPassword = ref(null);
 
-.modal-container {
-    width: 300px;
-    margin: 40px auto 0;
-    padding: 20px 30px;
-    background-color: #fff;
-    border-radius: 2px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
-    transition: all .3s ease;
-    font-family: Helvetica, Arial, sans-serif;
-}
+        const show = () => {
+            // baseModal을 직접 컨트롤합니다.
+            baseModal.value.open();
+            // Promise 객체를 사용하여, 현재 모달에서 확인, 취소의
+            // 응답이 돌아가기 전까지 작업을 기다리게 할 수 있습니다.
+            return new Promise((resolve) => {
+                // resolve 함수를 담아 외부에서 사용합니다.
+                resolvePromise.value = resolve;
+            });
+        };
 
-.modal-header h3 {
-    margin-top: 0;
-    color: #42b983;
-}
+        const submit = () => {
+            // 사용자 로그인 정보 담아서 부모 컴포넌트로 전달
+            // json-server --watch mock.json
+            let saveData = {};
+            let HOST = "http://localhost:3000";
+            saveData.userId = userId;
+            saveData.userPassword = userPassword;
 
-.modal-body {
-    margin: 20px 0;
-}
+            try {
+                axios.get(HOST + "/users", JSON.stringify(saveData), {
+                    headers: {
+                        "Content-Type": `application/json`,
+                        "Access-Control-Allow-Origin": `*`
+                    }
+                })
+                .then(res => {
+                    if (res.status === 200) {
+                        // 로그인 성공시 처리해줘야할 부분
+                        console.log("login success ->", res.data);
+                    }
+                });
+            } catch (error) {
+                console.error(error);
+                console.log("login failed");
+            }
 
-.text-right {
-    text-align: right;
-}
+            baseModal.value.close();
+            // 로그인 시도하면 user info 넘기기
+            resolvePromise.value(true);
+        };
 
-.form-label {
-    display: block;
-    margin-bottom: 1em;
-}
+        const cancel = () => {
+            baseModal.value.close();
+            resolvePromise.value(false);
+        };
 
-.form-label > .form-control {
-    margin-top: 0.5em;
-}
-
-.form-control {
-    display: block;
-    width: 100%;
-    padding: 0.5em 1em;
-    line-height: 1.5;
-    border: 1px solid #ddd;
-}
-
-.modal-enter, .modal-leave {
-    opacity: 0;
-}
-
-.modal-enter .modal-container,
-.modal-leave .modal-container {
-    -webkit-transform: scale(1.1);
-    transform: scale(1.1);
-}
-</style>
+        return { baseModal, show, submit, cancel };
+    },
+};
+</script>
