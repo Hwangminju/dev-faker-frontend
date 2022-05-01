@@ -16,7 +16,7 @@
                         placeholder="아이디"
                         v-model="userId"
                         required
-                    ></v-text-field> 
+                    ></v-text-field>
                 </div>
             </div>
             <div class="mx-3">
@@ -25,7 +25,7 @@
                     <span class="ml-2">Password</span>
                 </div>
                 <div class="mx-1">
-                    <v-text-field 
+                    <v-text-field
                         placeholder="비밀번호"
                         type="password"
                         v-model="userPassword"
@@ -34,7 +34,7 @@
                 </div>
             </div>
             <v-card-actions>
-                <v-btn 
+                <v-btn
                     color="#2c4f91"
                     dark
                     large
@@ -45,7 +45,7 @@
                 </v-btn>
             </v-card-actions>
             <v-card-actions>
-                <v-btn 
+                <v-btn
                     color="#2c4f91"
                     dark
                     large
@@ -66,7 +66,8 @@
 <script>
 import CommonModal from "@/components/modal/CommonModal.vue";
 import { ref } from "vue";
-
+import axios from "axios";
+axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*"
 
 export default {
     name: "LoginModal",
@@ -82,8 +83,8 @@ export default {
         const baseModal = ref(null);
         // Promise 객체를 핸들링하기 위한 ref
         const resolvePromise = ref(null);
-        var userId = ref("");
-        var userPassword = ref("");
+        var userId = ref(null);
+        var userPassword = ref(null);
 
         const show = () => {
             // baseModal을 직접 컨트롤합니다.
@@ -98,25 +99,26 @@ export default {
 
         const submit = () => {
             // 사용자 로그인 정보 담아서 부모 컴포넌트로 전달
-
+            // json-server --watch mock.json
             let saveData = {};
-            // let HOST = "http://dev-faker-be.herokuapp.com";
+            let HOST = "http://localhost:3000";
             saveData.userId = userId;
             saveData.userPassword = userPassword;
-            
+
             try {
-                this.axios.post("/users", JSON.stringify(saveData), {
+                axios.get(HOST + "/users", JSON.stringify(saveData), {
                     headers: {
-                        "Content-Type": `application/json`
+                        "Content-Type": `application/json`,
+                        "Access-Control-Allow-Origin": `*`
                     }
                 })
                 .then(res => {
-                    if (res.status === 200) { 
+                    if (res.status === 200) {
                         // 로그인 성공시 처리해줘야할 부분
                         console.log("login success ->", res.data);
                     }
-                }); 
-            } catch (error) { 
+                });
+            } catch (error) {
                 console.error(error);
                 console.log("login failed");
             }
