@@ -3,12 +3,6 @@
         <v-row style="height: 200px">
         </v-row>
         <v-row>
-            <!-- <v-col v-for="n for 3" :key="n" cols="12" md="4">
-                <v-card class="mx-5" style="height: 300px">
-                #{{ n }}번째 카드
-                </v-card>
-            </v-col> -->
-
             <v-col key="1" cols="12" md="4">
                 <div class="card_title">Fast Data Generation</div>
                 <v-card class="mx-5" style="height: 300px">

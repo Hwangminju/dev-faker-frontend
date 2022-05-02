@@ -7,24 +7,31 @@
         <v-col>
             <div>
                 <button class="menu"><span>Guide</span></button>
-                <button class="menu"><span>회원가입</span></button>
-                <button class="menu" v-if="!isLogined.flag" @click="doLogin"><span>로그인</span></button>
-                <span class="user">{{ loginedUser }}</span>
+                <button class="menu" @click="doRegister">   
+                    <span>회원가입</span
+                ></button>
+                <button class="menu" v-if="logined.status === false" @click="doLogin"><span>로그인</span></button>
+                <button class="menu" v-else @click="doLogout"><span>로그아웃</span></button>
+                
+                <span class="user" v-show="logined.status === True">{{ logined.user }}</span>
             </div>
         </v-col>
     </v-row>
     <LoginModal ref="modal" :content="loginModalTitle" />
+    <RegisterModal ref="modal" :content="RegisterModalTitle" />
 </template>
 
 <script>
-import { computed, reactive } from "vue";
+import { /*computed,*/ reactive } from "vue";
 import { ref } from "vue";
 import LoginModal from "../modal/user/LoginModal.vue";
+import RegisterModal from "../modal/user/RegisterModal.vue";
 import { useStore } from "vuex";
 export default {
     name: "App",
     components: {
-        LoginModal
+        LoginModal,
+        RegisterModal
     },
     setup() {
         const store = useStore();
@@ -33,18 +40,35 @@ export default {
             "LOGIN",
             "로그인을 진행해 주세요."
         ]);
-        const loginedUser = computed(() => store.state.userName);
-
-        const isLogined = reactive({
-            flag: store.state.loginStatus
+        const regitsterModalTitle = ref([
+            "REGISTER",
+            "회원가입을 진행해 주세요."
+        ]);
+        var logined = reactive({
+            user: store.state.userId,
+            status: store.state.loginStatus
         });
 
         // async-await을 사용하여, Modal로부터 응답을 기다리게 된다.
         const doLogin = async () => {
             const ok = await modal.value.show();
             if (ok) {
-                console.log(store.state.userName);
-                loginedUser.value = store.state.userName;
+                console.log(store.state.userId);
+                logined.user = store.state.userId;
+            } else {
+                // result.value = "로그인 취소";
+            }
+        };
+
+        const doLogout = () => {
+            store.commit("removeUserInfo");
+        }
+
+        const doRegister = async () => {
+            const ok = await modal.value.show();
+            if (ok) {
+                console.log(store.state.userId);
+                logined.user = store.state.userId;
             } else {
                 // result.value = "로그인 취소";
             }
@@ -52,10 +76,12 @@ export default {
 
         return {
             modal,
-            loginedUser,
             doLogin,
+            doLogout,
+            doRegister,
             loginModalTitle,
-            isLogined
+            regitsterModalTitle,
+            logined
         };
     },
 };

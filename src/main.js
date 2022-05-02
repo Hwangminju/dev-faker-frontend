@@ -4,6 +4,7 @@ import router from './router'
 import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
 import store from './store'
+import axios from 'axios'
 
 loadFonts()
 
@@ -16,6 +17,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 library.add(faUser, faKey)
 
 const app = createApp(App)
+app.config.globalProperties.axios = axios;
+
 app.component('font-awesome-icon', FontAwesomeIcon)
     .use(router)
     .use(store)

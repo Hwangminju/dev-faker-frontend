@@ -70,7 +70,7 @@ import axios from "axios";
 axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*"
 
 export default {
-    name: "LoginModal",
+    name: "RegisterModal",
     components: {
         CommonModal,
     },
@@ -100,13 +100,13 @@ export default {
         const submit = () => {
             // 사용자 로그인 정보 담아서 부모 컴포넌트로 전달
             // json-server --watch mock.json
-            let saveData = {};
-            let HOST = "http://localhost:3000";
+            var saveData = {};
+            var HOST = "http://dev-faker-be.herokuapp.com";
             saveData.userId = userId;
             saveData.userPassword = userPassword;
 
             try {
-                axios.get(HOST + "/users", JSON.stringify(saveData), {
+                axios.get(HOST + "/users/login", JSON.stringify(saveData), {
                     headers: {
                         "Content-Type": `application/json`,
                         "Access-Control-Allow-Origin": `*`

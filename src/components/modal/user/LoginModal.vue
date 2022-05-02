@@ -67,8 +67,7 @@
 import CommonModal from "@/components/modal/CommonModal.vue";
 import { ref } from "vue";
 import { useStore } from "vuex";
-import axios from "axios";
-axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
+// import axios from "axios";
 
 export default {
     name: "LoginModal",
@@ -103,16 +102,15 @@ export default {
         const submit = () => {
             // 사용자 로그인 정보 담아서 부모 컴포넌트로 전달
             // json-server --watch mock.json
-            let saveData = {};
-            let HOST = "http://localhost:3000";
+            var saveData = {};
             saveData.userId = userId;
             saveData.userPassword = userPassword;
 
             try {
-                axios.get(HOST + "/login", JSON.stringify(saveData), {
+                this.axios.post(`/users/login`, JSON.stringify(saveData), {
                     headers: {
                         "Content-Type": `application/json`,
-                        "Access-Control-Allow-Origin": `*`
+                        "Access-Control-Allow-Origin" : '*'
                     }
                 })
                 .then(res => {

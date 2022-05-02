@@ -3,16 +3,12 @@ import { createStore } from "vuex";
 export default createStore({
     state: {
         userId: '',
-        userName: '',
         token: '',
         loginStatus: false
     },
     getters: {
         getUserId(state) {
             return state.userId;
-        },
-        getUserName(state) {
-            return state.userName;
         },
         getToken(state) {
             return state.token;
@@ -24,8 +20,12 @@ export default createStore({
     mutations: {
         setUserInfo(state, value)  {
             state.userId = value.userId;
-            state.userName = value.userName;
             state.token = value.token;
+        },
+        removeUserInfo(state) {
+            state.userId = null;
+            state.token = null;
+            state.loginStatus = false;
         }
     }
 });
