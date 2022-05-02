@@ -3,7 +3,6 @@
         <!-- 상단 메뉴 -->
         <HeaderMenu />
         <router-view />
-        <LoginModal ref="modal" :content="modalContent" />
     </div>
 </template>
 

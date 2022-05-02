@@ -67,7 +67,7 @@
 import CommonModal from "@/components/modal/CommonModal.vue";
 import { ref } from "vue";
 import { useStore } from "vuex";
-// import axios from "axios";
+import axios from "axios";
 
 export default {
     name: "LoginModal",
@@ -85,8 +85,8 @@ export default {
         const baseModal = ref(null);
         // Promise 객체를 핸들링하기 위한 ref
         const resolvePromise = ref(null);
-        var userId = ref(null);
-        var userPassword = ref(null);
+        var userId = ref("");
+        var userPassword = ref("");
 
         const show = () => {
             // baseModal을 직접 컨트롤합니다.
@@ -99,35 +99,33 @@ export default {
             });
         };
 
-        const submit = () => {
+        const submit = async () => {
             // 사용자 로그인 정보 담아서 부모 컴포넌트로 전달
             // json-server --watch mock.json
-            var saveData = {};
-            saveData.userId = userId;
-            saveData.userPassword = userPassword;
+            await axios.post("/users/login", {
+                user_id: userId.value,
+                user_pw: userPassword.value
+            }, {
+                headers: {
+                    "accept": 'application/json',
+                    "Content-Type": 'application/json',
+                    "Access-Control-Allow-Origin" : '*'
+                }
+            })
+            .then(res => {
+                if (res.status === 200) {
+                    // 로그인 성공시 처리해줘야할 부분
+                    store.commit("setUserInfo", {
+                        userId: userId.value,
+                        token: "mytoken"
+                    });
+                    console.log(store.state);
+                    console.log("login success");
+                }
 
-            try {
-                this.axios.post(`/users/login`, JSON.stringify(saveData), {
-                    headers: {
-                        "Content-Type": `application/json`,
-                        "Access-Control-Allow-Origin" : '*'
-                    }
-                })
-                .then(res => {
-                    if (res.status === 200) {
-                        // 로그인 성공시 처리해줘야할 부분
-                        store.commit("setUserInfo", res.data);
-                        console.log("login success ->", res.data);
-                    }
-                });
-            } catch (error) {
-                console.error(error);
-                console.log("login failed");
-            }
-
-            baseModal.value.close();
-            // 로그인 시도하면 user info 넘기기
-            resolvePromise.value(true);
+                baseModal.value.close();
+                resolvePromise.value(true);
+            });
         };
 
         const cancel = () => {
@@ -135,7 +133,14 @@ export default {
             resolvePromise.value(false);
         };
 
-        return { baseModal, show, submit, cancel };
+        return { 
+            baseModal, 
+            show, 
+            submit, 
+            cancel,
+            userId,
+            userPassword
+        };
     },
 };
 </script>

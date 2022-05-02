@@ -13,12 +13,12 @@
                 <button class="menu" v-if="logined.status === false" @click="doLogin"><span>로그인</span></button>
                 <button class="menu" v-else @click="doLogout"><span>로그아웃</span></button>
                 
-                <span class="user" v-show="logined.status === True">{{ logined.user }}</span>
+                <span class="user" v-show="logined.status === true">{{ logined.user }}</span>
             </div>
         </v-col>
     </v-row>
-    <LoginModal ref="modal" :content="loginModalTitle" />
-    <RegisterModal ref="modal" :content="RegisterModalTitle" />
+    <LoginModal ref="login_modal" :content="loginModalTitle" />
+    <RegisterModal ref="register_modal" :content="registerModalTitle" />
 </template>
 
 <script>
@@ -35,12 +35,13 @@ export default {
     },
     setup() {
         const store = useStore();
-        const modal = ref(null);
+        const login_modal = ref(null);
+        const register_modal = ref(null);
         const loginModalTitle = ref([
             "LOGIN",
             "로그인을 진행해 주세요."
         ]);
-        const regitsterModalTitle = ref([
+        const registerModalTitle = ref([
             "REGISTER",
             "회원가입을 진행해 주세요."
         ]);
@@ -51,9 +52,9 @@ export default {
 
         // async-await을 사용하여, Modal로부터 응답을 기다리게 된다.
         const doLogin = async () => {
-            const ok = await modal.value.show();
-            if (ok) {
-                console.log(store.state.userId);
+            const ok = await login_modal.value.show();
+            if (ok) { 
+                console.log(store.state);
                 logined.user = store.state.userId;
             } else {
                 // result.value = "로그인 취소";
@@ -65,7 +66,7 @@ export default {
         }
 
         const doRegister = async () => {
-            const ok = await modal.value.show();
+            const ok = await register_modal.value.show();
             if (ok) {
                 console.log(store.state.userId);
                 logined.user = store.state.userId;
@@ -75,12 +76,13 @@ export default {
         };
 
         return {
-            modal,
+            login_modal,
+            register_modal,
             doLogin,
             doLogout,
             doRegister,
             loginModalTitle,
-            regitsterModalTitle,
+            registerModalTitle,
             logined
         };
     },

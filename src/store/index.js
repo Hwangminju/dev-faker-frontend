@@ -21,6 +21,7 @@ export default createStore({
         setUserInfo(state, value)  {
             state.userId = value.userId;
             state.token = value.token;
+            state.loginStatus = true;
         },
         removeUserInfo(state) {
             state.userId = null;
