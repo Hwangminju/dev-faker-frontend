@@ -74,9 +74,15 @@ vue3 참고
 - https://velog.io/@kdeun1/Vue-3-Composition-API-TypeScript-Vuex-4로-프로젝트-구성하기
 - https://sunny921.github.io/posts/vuejs-router-02/
 
-
 ### 8. Github Pages 연동
 https://codingapple.com/unit/vue-build-and-deploy-with-github-pages/
+
+### 9. 빌드 결과물 Github Pages로 띄우기
+1. npm run build 수행
+2. dist 폴더 생성되면, dist 폴더 안의 모든 파일들을 Github Pages용 레파지토리에 업로드
+(https://github.com/Hwangminju/Hwangminju.github.io)
+4. 약 2~3분 기다리면 Github Pages에 반영된 것 확인 가능
+(https://hwangminju.github.io)
 
 ### [참고]
 
