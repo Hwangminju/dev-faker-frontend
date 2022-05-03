@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import { /*computed,*/ reactive } from "vue";
 import { ref } from "vue";
 import LoginModal from "../modal/user/LoginModal.vue";
 import RegisterModal from "../modal/user/RegisterModal.vue";
@@ -45,7 +44,7 @@ export default {
             "REGISTER",
             "회원가입을 진행해 주세요."
         ]);
-        var logined = reactive({
+        var logined = ref({
             user: store.state.userId,
             status: store.state.loginStatus
         });
@@ -55,10 +54,17 @@ export default {
             const ok = await login_modal.value.show();
             if (ok) { 
                 console.log(store.state);
-                logined.user = store.state.userId;
+                logined.value.user = store.state.userId;
+                logined.value.status = true;
             } else {
                 // result.value = "로그인 취소";
             }
+
+            // const loginSubmitted = await login_modal.value.submit();
+            // if (loginSubmitted) {
+            //     console.log(store.state);
+            //     logined.value.user = store.state.userId;
+            // }
         };
 
         const doLogout = () => {
@@ -69,7 +75,7 @@ export default {
             const ok = await register_modal.value.show();
             if (ok) {
                 console.log(store.state.userId);
-                logined.user = store.state.userId;
+                logined.value.user = store.state.userId;
             } else {
                 // result.value = "로그인 취소";
             }
