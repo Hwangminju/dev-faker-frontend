@@ -1,9 +1,7 @@
 <template>
     <CommonModal ref="baseModal">
         <div class="content-container">
-            <p v-for="text in content" :key="text">
-            {{ text }}
-            </p>
+            <span class="title">REGISTER</span>
         </div>
         <v-form class="mt-3">
             <div class="mx-3">
@@ -136,3 +134,13 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+.content-container {
+    margin-bottom: 30px;
+}
+
+.title {
+    font-size: 25px;
+}
+</style>

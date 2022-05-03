@@ -14,26 +14,27 @@
 <script>
 import { ref } from "vue";
 export default {
-  name: "CommonModal",
-  setup() {
-    const isVisible = ref(null);
+   name: "CommonModal",
+   setup() {
+        // isVisible이라는 변수 값에 의해 모달이 보여지고 사라지는 컴포넌트
+        const isVisible = ref(null);
 
-    // 부모 컴포넌트에서 접근하기 위한 함수를 선언합니다.
-    const open = () => {
-      isVisible.value = true;
-    };
+        // 부모 컴포넌트에서 접근하기 위한 함수를 선언합니다.
+        const open = () => {
+            isVisible.value = true;
+        };
 
-    const close = () => {
-      isVisible.value = false;
-    };
-    
-    // setup 함수에서 리턴해주어야, 부모 컴포넌트에서 접근이 가능합니다.
-    return {
-      isVisible,
-      open,
-      close,
-    };
-  },
+        const close = () => {
+            isVisible.value = false;
+        };
+        
+        // setup 함수에서 리턴해주어야, 부모 컴포넌트에서 접근이 가능합니다.
+        return {
+            isVisible,
+            open,
+            close,
+        };
+    },
 };
 </script>
 

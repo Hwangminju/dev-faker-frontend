@@ -1,24 +1,36 @@
 <template>
     <v-row class="header">
         <v-col>
-            <span class="title">Dev-Faker</span>
+            <button class="title">
+                <router-link to="/">
+                    <span>Dev-Faker</span>
+                </router-link>
+            </button>
         </v-col>
         <v-spacer />
         <v-col>
             <div>
+                <button class="menu">
+                    <router-link to="/project-list">
+                        <span>프로젝트</span>
+                    </router-link>
+                </button>
                 <button class="menu"><span>Guide</span></button>
-                <button class="menu" @click="doRegister">   
-                    <span>회원가입</span
-                ></button>
-                <button class="menu" v-if="logined.status === false" @click="doLogin"><span>로그인</span></button>
-                <button class="menu" v-else @click="doLogout"><span>로그아웃</span></button>
+                <button class="menu" @click="doRegister"><span>회원가입</span></button>
                 
-                <span class="user" v-show="logined.status === true">{{ logined.user }}</span>
+                <div v-if="logined.status === false" class="inline">
+                    <button @click="doLogin" class="menu"><span>로그인</span></button>
+                </div>
+                <div v-else class="inline">
+                    <button @click="doLogout" class="menu"><span>로그아웃</span></button>
+                    <font-awesome-icon icon="user" class="mr-2"/>
+                    <span class="user">{{ logined.user }}</span>
+                </div>
             </div>
         </v-col>
     </v-row>
-    <LoginModal ref="login_modal" :content="loginModalTitle" />
-    <RegisterModal ref="register_modal" :content="registerModalTitle" />
+    <LoginModal ref="login_modal" />
+    <RegisterModal ref="register_modal" />
 </template>
 
 <script>
@@ -36,14 +48,7 @@ export default {
         const store = useStore();
         const login_modal = ref(null);
         const register_modal = ref(null);
-        const loginModalTitle = ref([
-            "LOGIN",
-            "로그인을 진행해 주세요."
-        ]);
-        const registerModalTitle = ref([
-            "REGISTER",
-            "회원가입을 진행해 주세요."
-        ]);
+
         var logined = ref({
             user: store.state.userId,
             status: store.state.loginStatus
@@ -59,12 +64,6 @@ export default {
             } else {
                 // result.value = "로그인 취소";
             }
-
-            // const loginSubmitted = await login_modal.value.submit();
-            // if (loginSubmitted) {
-            //     console.log(store.state);
-            //     logined.value.user = store.state.userId;
-            // }
         };
 
         const doLogout = () => {
@@ -89,8 +88,6 @@ export default {
             doLogin,
             doLogout,
             doRegister,
-            loginModalTitle,
-            registerModalTitle,
             logined
         };
     },
@@ -113,5 +110,12 @@ export default {
 }
 .user {
     color: indigo;
+}
+.inline {
+    display: inline;
+}
+a {
+    text-decoration: none;
+    color: black;
 }
 </style>
