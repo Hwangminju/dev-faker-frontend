@@ -99,7 +99,7 @@ export default {
         const submit = async () => {
             // 사용자 로그인 정보 담아서 부모 컴포넌트로 전달
             // json-server --watch mock.json
-            await axios.put("/users/", {
+            await axios.put("https://dev-faker-be.herokuapp.com/users/", {
                 user_id: userId.value,
                 user_pw: userPassword.value
             }, {
