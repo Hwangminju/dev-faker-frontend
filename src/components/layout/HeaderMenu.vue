@@ -53,9 +53,9 @@ export default {
         const doLogin = async () => {
             const ok = await login_modal.value.show();
             if (ok) { 
-                console.log(store.state);
-                logined.value.user = store.state.userId;
+                logined.value.user = store.getters.getUserId;
                 logined.value.status = true;
+                console.log(logined);
             } else {
                 // result.value = "로그인 취소";
             }
@@ -69,15 +69,17 @@ export default {
 
         const doLogout = () => {
             store.commit("removeUserInfo");
+            logined.value.user = null;
+            logined.value.status = store.getters.getLoginStatus;
+            // logined.value에도 반영이 바로 되야 함.
         }
 
         const doRegister = async () => {
             const ok = await register_modal.value.show();
             if (ok) {
-                console.log(store.state.userId);
-                logined.value.user = store.state.userId;
+                console.log("register success");
             } else {
-                // result.value = "로그인 취소";
+                // result.value = "회원가입 취소";
             }
         };
 

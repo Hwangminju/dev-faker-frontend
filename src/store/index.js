@@ -24,8 +24,8 @@ export default createStore({
             state.loginStatus = true;
         },
         removeUserInfo(state) {
-            state.userId = null;
-            state.token = null;
+            state.userId = '';
+            state.token = '';
             state.loginStatus = false;
         }
     }
