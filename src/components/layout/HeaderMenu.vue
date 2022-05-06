@@ -2,9 +2,7 @@
     <v-row class="header">
         <v-col>
             <button class="title">
-                <router-link to="/">
-                    <span>Dev-Faker</span>
-                </router-link>
+                <router-link to="/">Dev-Faker</router-link>
             </button>
         </v-col>
         <v-spacer />

@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import CommonModal from "@/components/modal/CommonModal.vue";
+import CommonModal from "@/components/modal/common/CommonModal.vue";
 import { ref } from "vue";
 import { useStore } from "vuex";
 import axios from "axios";
@@ -112,13 +112,13 @@ export default {
             })
             .then(res => {
                 if (res.status === 200) {
+                    var data = res.data;
                     // 로그인 성공시 처리해줘야할 부분
                     store.commit("setUserInfo", {
                         userId: userId.value,
-                        token: "mytoken"
+                        token: data.token
                     });
-                    console.log(store.state);
-                    console.log("login success");
+                    console.log(data.detail);
                 }
 
                 baseModal.value.close();

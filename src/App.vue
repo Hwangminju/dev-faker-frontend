@@ -17,8 +17,13 @@ export default {
 </script>
 
 <style>
+@font-face {
+    font-family: 'Nanum Barun Gothic';
+    src: url('@/assets/fonts/NanumBarunGothic.ttf');
+}
+
 #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
+    font-family: 'Nanum Barun Gothic';
     text-align: center;
     box-sizing: border-box;
 }

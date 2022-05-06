@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import CommonModal from "@/components/modal/CommonModal.vue";
+import CommonModal from "@/components/modal/common/CommonModal.vue";
 import { ref } from "vue";
 // import { useStore } from "vuex";
 import axios from "axios";

@@ -4,7 +4,7 @@ const routes = [
     {
         path: "/",
         name: "MainView",
-        component: () => import("../views/MainView.vue"),
+        component: () => import("../views/main/MainView.vue"),
     },
     {
         path: "/project-list",
