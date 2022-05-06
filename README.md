@@ -84,6 +84,15 @@ https://codingapple.com/unit/vue-build-and-deploy-with-github-pages/
 4. 약 2~3분 기다리면 Github Pages에 반영된 것 확인 가능
 (https://hwangminju.github.io)
 
+### 10. localstorage에 값 저장하기 (vuex-persistedstate)
+1) vuex-persistedstate 설치
+```
+npm install vuex-persistedstate
+```
+
+2) store 수정
+store/index.js에 import createPersistedState from 'vuex-persistedstate'; 추가
+
 ### [참고]
 
 ## Project setup
