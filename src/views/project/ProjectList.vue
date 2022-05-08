@@ -1,21 +1,22 @@
 <template>
-    <div>
-        <table v-for="project in projects" :key="project.name">
-            <span class="proj_name">{{ project.name }}</span>
-            <tr>
-                <th>Data Group</th>
-                <th>Description</th>
-                <th>수정하기</th>
-            </tr>
-            <tr v-for="group in project.dataGroup" :key="group.name">
-                <!--td><a target="_blank" :href="item.link">{{item.link}}</a></td>
-                <td><img v-bind:src="item.image"></td-->
-                <td><span>{{ group.name }}</span></td>
-                <td><span>{{ group.description }}</span></td>
-                <td><button class="edit_btn">Edit</button></td>
-            </tr>
-        </table>
-    </div>
+    <!-- block 안의 inline만 text-align 적용 가능 -->
+    <table v-for="project in projects" :key="project.name">
+        <div class="proj_name">
+            <span>{{ project.name }}</span>
+        </div>
+        <tr>
+            <th>Data Group</th>
+            <th>Description</th>
+            <th>수정하기</th>
+        </tr>
+        <tr v-for="group in project.dataGroup" :key="group.name">
+            <!--td><a target="_blank" :href="item.link">{{item.link}}</a></td>
+            <td><img v-bind:src="item.image"></td-->
+            <td><span>{{ group.name }}</span></td>
+            <td><span>{{ group.description }}</span></td>
+            <td><button class="edit_btn">Edit</button></td>
+        </tr>
+    </table>
 </template>
 <script>
 import { ref } from "vue";
@@ -29,12 +30,31 @@ export default {
                 "name": "Dev-Space",
                 // "link": "https://movie.naver.com/movie/bi/mi/basic.nhn?code=161967",
                 // "image": "https://ssl.pstatic.net/imgmovie/mdi/mit110/1619/161967_P153_134645.jpg",
-                "dataGroup": [{
-                    "name": "User",
-                    "description": "Dev-Space 사용자",
-                }],
-                
+                "dataGroup": [
+                    {
+                        "name": "User",
+                        "description": "Dev-Space 사용자",
+                    }, 
+                    {
+                        "name": "Project",
+                        "description": "Dev-Space 수용 프로젝트",
+                    }
+                ]
             },
+            {
+                "id": 2,
+                "name": "APPDU",
+                "dataGroup": [
+                    {
+                        "name": "DevStatus",
+                        "description": "앱두 과제 개발 현황",
+                    },
+                    {
+                        "name": "RegionalFigure",
+                        "description": "광역본부별 과제 현황",
+                    },
+                ]
+            }
         ]);
 
         return { 
@@ -47,7 +67,7 @@ export default {
 <style>
 table {
     width: 100%;
-    padding: 30px;
+    padding: 20px;
 }
 th {
     background-color: #F5EEFA;
@@ -61,6 +81,8 @@ body {
 }
 .proj_name {
     font-size: 25px;
+    text-align: left;
+    margin-top: 20px;
 }
 .edit_btn {
     background-color: #E1E6F2;

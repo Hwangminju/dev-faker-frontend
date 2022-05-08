@@ -1,7 +1,7 @@
 <template>
     <CommonModal ref="baseModal">
         <div class="content-container">
-            <span class="title">LOGIN</span>
+            <span class="title">로그인</span>
         </div>
         <v-form>
             <div class="mx-3">
@@ -58,19 +58,26 @@
             <!-- <button class="btn confirm" @click="confirm">확인</button> -->
             <!-- <button class="btn cancel" @click="cancel">취소</button> -->
         </div>
+        <div v-if="isLoading" class="loading-container">
+            <div class="loading">
+                <FadeLoader />
+            </div>
+        </div>
+
     </CommonModal>
 </template>
 
 <script>
 import CommonModal from "@/components/modal/common/CommonModal.vue";
-import { ref } from "vue";
+import FadeLoader from 'vue-spinner/src/FadeLoader.vue';
+import { ref, computed } from "vue";
 import { useStore } from "vuex";
 import axios from "axios";
 
 export default {
     name: "LoginModal",
     components: {
-        CommonModal,
+        CommonModal, FadeLoader
     },
     // 렌더링할 텍스트를 가져옵니다.
     props: {
@@ -86,6 +93,8 @@ export default {
         var userId = ref("");
         var userPassword = ref("");
 
+        var isLoading = computed(() => store.getters.getLoading);
+
         const show = () => {
             // baseModal을 직접 컨트롤합니다.
             baseModal.value.open();
@@ -100,6 +109,9 @@ export default {
         const submit = async () => {
             // 사용자 로그인 정보 담아서 부모 컴포넌트로 전달
             // json-server --watch mock.json
+            
+            // spinner 로딩 시작
+            store.commit("startLoading");
             await axios.post("https://dev-faker-be.herokuapp.com/users/login", {
                 user_id: userId.value,
                 user_pw: userPassword.value
@@ -118,12 +130,13 @@ export default {
                         userId: userId.value,
                         token: data.token
                     });
-                    console.log(data.detail);
                 }
 
                 baseModal.value.close();
                 resolvePromise.value(true);
             });
+            // spinner 로딩 중지
+            store.commit("stopLoading");
         };
 
         const cancel = () => {
@@ -132,12 +145,14 @@ export default {
         };
 
         return { 
-            baseModal, 
+            baseModal,
+            FadeLoader,
             show, 
             submit, 
             cancel,
             userId,
-            userPassword
+            userPassword,
+            isLoading
         };
     },
 };
@@ -150,5 +165,13 @@ export default {
 
 .title {
     font-size: 25px;
+}
+.loading {
+    z-index: 2;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: rgba(0, 0, 0, 0.1) 0 0 0 9999px;
 }
 </style>

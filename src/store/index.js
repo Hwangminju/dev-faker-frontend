@@ -5,7 +5,8 @@ export default createStore({
     state: {
         userId: '',
         token: '',
-        loginStatus: false
+        loginStatus: false,
+        loading: false
     },
     getters: {
         getUserId(state) {
@@ -16,7 +17,10 @@ export default createStore({
         },
         getLoginStatus(state) {
             return state.loginStatus;
-        }      
+        },
+        getLoading(state) {
+            return state.loading;
+        }
     },
     mutations: {
         setUserInfo(state, value)  {
@@ -28,6 +32,12 @@ export default createStore({
             state.userId = '';
             state.token = '';
             state.loginStatus = false;
+        },
+        startLoading(state) {
+            state.loading = true;
+        },
+        stopLoading(state) {
+            state.loading = false;
         }
     },
     plugins: [
