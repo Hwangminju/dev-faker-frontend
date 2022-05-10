@@ -131,9 +131,8 @@ export default {
                         token: data.token
                     });
 
-
-                    localStorage.setItem("id", store.getters.getUserId);
-                    localStorage.setItem("loginStatus", store.getters.getLoginStatus);
+                    // localStorage.setItem("id", store.getters.getUserId);
+                    // localStorage.setItem("loginStatus", store.getters.getLoginStatus);
                 }
 
                 baseModal.value.close();

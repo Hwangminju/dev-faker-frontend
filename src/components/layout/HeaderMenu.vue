@@ -14,9 +14,10 @@
                 </router-link>
             </button>
             <button class="menu"><span>Guide</span></button>
-            <button class="menu" @click="doRegister"><span>회원가입</span></button>
+            
             
             <div v-if="logined.status === false" class="inline">
+                <button class="menu" @click="doRegister"><span>회원가입</span></button>
                 <button @click="doLogin" class="menu"><span>로그인</span></button>
             </div>
             <div v-else class="inline">
@@ -73,7 +74,8 @@ export default {
                 
                 router.push({name: 'MainView'});
                 localStorage.removeItem('vuex');
-                console.log("Login User ->", logined);
+                // localStorage.removeItem('id');
+                // localStorage.removeItem('loginStatus');
             }
         }
 

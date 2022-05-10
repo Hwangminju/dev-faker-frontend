@@ -29,30 +29,33 @@ export default {
         const store = useStore();
         let projects = ref([]);
 
-        async () => {
-            // spinner 로딩 시작
-            store.commit("startLoading");
-            await axios.get("https://dev-faker-be.herokuapp.com/projects", {
-                headers: {
-                    "accept": 'application/json',
-                    "Content-Type": 'application/json',
-                    "Access-Control-Allow-Origin" : '*',
-                    'Authentication': 'Bearer ' + store.getters.getToken
-                }
-            })
-            .then(res => {
-                if (res.status === 200) {
-                    let data = res.data;
-                    console.log(data);
-                    projects = res.data;
-                }
-            });
-            // spinner 로딩 중지
-            store.commit("stopLoading");
-        };
+        function getProject() {
+            async () => {
+                // spinner 로딩 시작
+                store.commit("startLoading");
+                await axios.get("https://dev-faker-be.herokuapp.com/projects", {
+                    headers: {
+                        "accept": 'application/json',
+                        "Content-Type": 'application/json',
+                        "Access-Control-Allow-Origin" : '*',
+                        'Authentication': 'Bearer ' + store.getters.getToken
+                    }
+                })
+                .then(res => {
+                    if (res.status === 200) {
+                        let data = res.data;
+                        console.log(data);
+                        projects = res.data;
+                    }
+                });
+                // spinner 로딩 중지
+                store.commit("stopLoading");
+            };
+        }
 
         return { 
-            projects
+            projects,
+            getProject
         }
     }
 }
