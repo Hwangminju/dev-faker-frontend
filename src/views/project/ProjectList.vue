@@ -20,42 +20,36 @@
 </template>
 <script>
 import { ref } from "vue";
+import axios from "axios";
+import { useStore } from "vuex";
 
 export default {
     name: 'ProjectList',
     setup() {
-        const projects = ref([
-            {
-                "id": 1,
-                "name": "Dev-Space",
-                // "link": "https://movie.naver.com/movie/bi/mi/basic.nhn?code=161967",
-                // "image": "https://ssl.pstatic.net/imgmovie/mdi/mit110/1619/161967_P153_134645.jpg",
-                "dataGroup": [
-                    {
-                        "name": "User",
-                        "description": "Dev-Space 사용자",
-                    }, 
-                    {
-                        "name": "Project",
-                        "description": "Dev-Space 수용 프로젝트",
-                    }
-                ]
-            },
-            {
-                "id": 2,
-                "name": "APPDU",
-                "dataGroup": [
-                    {
-                        "name": "DevStatus",
-                        "description": "앱두 과제 개발 현황",
-                    },
-                    {
-                        "name": "RegionalFigure",
-                        "description": "광역본부별 과제 현황",
-                    },
-                ]
-            }
-        ]);
+        const store = useStore();
+        let projects = ref([]);
+
+        async () => {
+            // spinner 로딩 시작
+            store.commit("startLoading");
+            await axios.get("https://dev-faker-be.herokuapp.com/projects", {
+                headers: {
+                    "accept": 'application/json',
+                    "Content-Type": 'application/json',
+                    "Access-Control-Allow-Origin" : '*',
+                    'Authentication': 'Bearer ' + store.getters.getToken
+                }
+            })
+            .then(res => {
+                if (res.status === 200) {
+                    let data = res.data;
+                    console.log(data);
+                    projects = res.data;
+                }
+            });
+            // spinner 로딩 중지
+            store.commit("stopLoading");
+        };
 
         return { 
             projects

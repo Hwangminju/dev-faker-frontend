@@ -90,10 +90,10 @@ export default {
         const baseModal = ref(null);
         // Promise 객체를 핸들링하기 위한 ref
         const resolvePromise = ref(null);
-        var userId = ref("");
-        var userPassword = ref("");
+        let userId = ref("");
+        let userPassword = ref("");
 
-        var isLoading = computed(() => store.getters.getLoading);
+        let isLoading = computed(() => store.getters.getLoading);
 
         const show = () => {
             // baseModal을 직접 컨트롤합니다.
@@ -130,6 +130,10 @@ export default {
                         userId: userId.value,
                         token: data.token
                     });
+
+
+                    localStorage.setItem("id", store.getters.getUserId);
+                    localStorage.setItem("loginStatus", store.getters.getLoginStatus);
                 }
 
                 baseModal.value.close();
