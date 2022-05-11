@@ -1,20 +1,18 @@
 <template>
     <div>
         <!-- block 안의 inline만 text-align 적용 가능 -->
-        <table v-for="project in projects" :key="project.name">
+        <table v-for="proj in projects" :key="proj.projectName">
             <div class="proj_name">
-                <span>{{ project.name }}</span>
+                <span>{{ proj.projectName }}</span>
             </div>
             <tr>
-                <th>Data Group</th>
-                <th>Description</th>
+                <th>Data Name</th>
+                <th>Data Path</th>
                 <th>수정하기</th>
             </tr>
-            <tr v-for="group in project.dataGroup" :key="group.name">
-                <!--td><a target="_blank" :href="item.link">{{item.link}}</a></td>
-                <td><img v-bind:src="item.image"></td-->
-                <td><span>{{ group.name }}</span></td>
-                <td><span>{{ group.description }}</span></td>
+            <tr v-for="data in proj.data" :key="data.dataId">
+                <td><span>{{ data.dataName }}</span></td>
+                <td><span>{{ data.dataPath }}</span></td>
                 <td><button class="edit_btn">Edit</button></td>
             </tr>
         </table>
@@ -38,8 +36,8 @@ export default {
     },
     setup() {
         const store = useStore();
-        const projects = ref([]);
 
+        let projects = ref([]);
         let isLoading = computed(() => store.getters.getLoading);
 
         onMounted(async () => {
@@ -55,15 +53,15 @@ export default {
             })
             .then(res => {
                 if (res.status === 200) {
-                    console.log(res);
-                    this.projects = res.data;
+                    projects.value = res.data;
                 }
             });
             // spinner 로딩 중지
             store.commit("stopLoading");
+            console.log("here", projects.value);
         });
 
-        return { 
+        return {
             projects,
             FadeLoader,
             isLoading
