@@ -17,7 +17,11 @@ module.exports = defineConfig({
     devServer: {
         proxy: {
             "/users": {
-                target: 'http://dev-faker-be.herokuapp.com',
+                target: 'https://dev-faker-be.herokuapp.com',
+                changeOrigin: true
+            },
+            "/projects": {
+                target: 'https://dev-faker-be.herokuapp.com',
                 changeOrigin: true
             }
         } 

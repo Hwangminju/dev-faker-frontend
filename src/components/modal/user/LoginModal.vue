@@ -165,7 +165,6 @@ export default {
 .content-container {
     margin-bottom: 30px;
 }
-
 .title {
     font-size: 25px;
 }
