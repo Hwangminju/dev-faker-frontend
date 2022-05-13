@@ -80,9 +80,11 @@ https://codingapple.com/unit/vue-build-and-deploy-with-github-pages/
 ### 9. 빌드 결과물 Github Pages로 띄우기
 1. npm run build 수행
 2. dist 폴더 생성되면, dist 폴더 안의 모든 파일들을 Github Pages용 레파지토리에 업로드
-(https://github.com/Hwangminju/Hwangminju.github.io)
+- 테스트 : https://github.com/Hwangminju/Hwangminju.github.io
+- 배포 : https://github.com/Dev-Faker-Caravan/Dev-Faker-Caravan.github.io
 4. 약 2~3분 기다리면 Github Pages에 반영된 것 확인 가능
-(https://hwangminju.github.io)
+- 테스트 : https://hwangminju.github.io
+- 배포 : https://dev-faker-caravan.github.io
 
 ### 10. localstorage에 값 저장하기 (vuex-persistedstate)
 1) vuex-persistedstate 설치
