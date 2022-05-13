@@ -1,5 +1,5 @@
 <template>
-    <CommonModal ref="baseModal">
+    <CommonModal ref="commonModal">
         <div class="content-container">
             <span class="title">REGISTER</span>
         </div>
@@ -77,15 +77,15 @@ export default {
         // const store = useStore();
 
         // 자식 컴포넌트(CommonModal)를 핸들링하기 위한 ref
-        const baseModal = ref(null);
+        const commonModal = ref(null);
         // Promise 객체를 핸들링하기 위한 ref
         const resolvePromise = ref(null);
         var userId = ref("");
         var userPassword = ref("");
 
         const show = () => {
-            // baseModal을 직접 컨트롤합니다.
-            baseModal.value.open();
+            // commonModal을 직접 컨트롤합니다.
+            commonModal.value.open();
             // Promise 객체를 사용하여, 현재 모달에서 확인, 취소의
             // 응답이 돌아가기 전까지 작업을 기다리게 할 수 있습니다.
             return new Promise((resolve) => {
@@ -113,18 +113,18 @@ export default {
                     console.log("register success");
                 }
 
-                baseModal.value.close();
+                commonModal.value.close();
                 resolvePromise.value(true);
             });
         };
 
         const cancel = () => {
-            baseModal.value.close();
+            commonModal.value.close();
             resolvePromise.value(false);
         };
 
         return { 
-            baseModal, 
+            commonModal, 
             show, 
             submit, 
             cancel,

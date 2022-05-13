@@ -10,7 +10,10 @@
                 <th>Data Path</th>
                 <th>수정하기</th>
             </tr>
-            <tr v-for="data in proj.data" :key="data.dataId">
+            <tr 
+                v-for="data in proj.data" 
+                :key="data.dataId"
+            >
                 <td><span>{{ data.dataName }}</span></td>
                 <td><span>{{ data.dataPath }}</span></td>
                 <td><button class="edit_btn">Edit</button></td>
@@ -28,7 +31,6 @@ import { ref, computed, onMounted } from "vue";
 import axios from "axios";
 import { useStore } from "vuex";
 import FadeLoader from 'vue-spinner/src/FadeLoader.vue';
-
 export default {
     name: 'ProjectList',
     components: {
@@ -36,10 +38,13 @@ export default {
     },
     setup() {
         const store = useStore();
-
         let projects = ref([]);
         let isLoading = computed(() => store.getters.getLoading);
-
+        
+        const showProject = () => {
+            console.log("프로젝트 상세 화면 보여주기!");
+        };
+        
         onMounted(async () => {
             // spinner 로딩 시작
             store.commit("startLoading");
@@ -60,11 +65,11 @@ export default {
             store.commit("stopLoading");
             console.log("here", projects.value);
         });
-
         return {
             projects,
             FadeLoader,
-            isLoading
+            isLoading,
+            showProject
         }
     }
 }
