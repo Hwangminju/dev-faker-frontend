@@ -74,6 +74,7 @@ export default {
                 
                 router.push({name: 'MainView'});
                 localStorage.removeItem('vuex');
+                store.commit("stopLoading");
                 // localStorage.removeItem('id');
                 // localStorage.removeItem('loginStatus');
             }

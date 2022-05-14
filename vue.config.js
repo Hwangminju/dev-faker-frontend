@@ -23,7 +23,11 @@ module.exports = defineConfig({
             "/projects": {
                 target: 'https://dev-faker-be.herokuapp.com',
                 changeOrigin: true
-            }
+            },
+            "/project": {
+                target: 'https://dev-faker-be.herokuapp.com',
+                changeOrigin: true
+            },
         } 
     }
 })

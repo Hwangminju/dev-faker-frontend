@@ -6,7 +6,8 @@ export default createStore({
         userId: '',
         token: '',
         loginStatus: false,
-        loading: false
+        loading: false,
+        projectNamespace: ''
     },
     getters: {
         getUserId(state) {
@@ -20,6 +21,9 @@ export default createStore({
         },
         getLoading(state) {
             return state.loading;
+        },
+        getProjectNamespace(state) {
+            return state.projectNamespace;
         }
     },
     mutations: {
@@ -38,6 +42,9 @@ export default createStore({
         },
         stopLoading(state) {
             state.loading = false;
+        },
+        setProjectNamespace(state, value) {
+            state.projectNamespace = value;
         }
     },
     plugins: [

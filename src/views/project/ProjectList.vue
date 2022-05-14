@@ -1,25 +1,35 @@
 <template>
-    <div>
+    <div class="mt-10">
         <!-- block 안의 inline만 text-align 적용 가능 -->
-        <table v-for="proj in projects" :key="proj.projectName">
-            <div class="proj_name">
-                <span>{{ proj.projectName }}</span>
+        <div v-for="proj in projects" :key="proj.projectName" class="mt-5">
+            <div>
+                <v-row class="top">
+                    <span class="proj_name">{{ proj.projectName }}</span>
+                    <v-spacer />
+                    <button 
+                        class="proj_edit" 
+                        @click="showProjectModal(proj.projectNamespace)"
+                    ><span>프로젝트 정보</span></button>
+                </v-row>
+                <table>
+                    <tr>
+                        <th>Data Name</th>
+                        <th>Data Path</th>
+                        <th>수정하기</th>
+                    </tr>
+                    <tr 
+                        v-for="data in proj.data" 
+                        :key="data.dataId"
+                    >
+                        <td><span>{{ data.dataName }}</span></td>
+                        <td><span>{{ data.dataPath }}</span></td>
+                        <td><button class="proj_edit">Edit</button></td>
+                    </tr>
+                </table>
             </div>
-            <tr>
-                <th>Data Name</th>
-                <th>Data Path</th>
-                <th>수정하기</th>
-            </tr>
-            <tr 
-                v-for="data in proj.data" 
-                :key="data.dataId"
-            >
-                <td><span>{{ data.dataName }}</span></td>
-                <td><span>{{ data.dataPath }}</span></td>
-                <td><button class="edit_btn">Edit</button></td>
-            </tr>
-        </table>
+        </div>
     </div>
+    <ProjectInfoModal ref="project_info_modal" />
     <div v-if="isLoading" class="loading-container">
         <div class="loading">
             <FadeLoader />
@@ -30,19 +40,34 @@
 import { ref, computed, onMounted } from "vue";
 import axios from "axios";
 import { useStore } from "vuex";
+import ProjectInfoModal from "@/components/modal/project/ProjectInfoModal.vue";
 import FadeLoader from 'vue-spinner/src/FadeLoader.vue';
 export default {
     name: 'ProjectList',
     components: {
-        FadeLoader
+        FadeLoader,
+        ProjectInfoModal,
     },
     setup() {
         const store = useStore();
         let projects = ref([]);
+        const project_info_modal = ref(null);
         let isLoading = computed(() => store.getters.getLoading);
+        // 프로젝트 namespace로 정보 API 호출
+        let namespace = ref("");
         
-        const showProject = () => {
-            console.log("프로젝트 상세 화면 보여주기!");
+        const showProjectModal = (projectNamespace) => {
+            store.commit("setProjectNamespace", projectNamespace);
+            showProjectInfo();
+        };
+
+        const showProjectInfo = async () => {
+            const ok = await project_info_modal.value.show();
+            if (ok) { 
+                console.log("수정!");
+            } else {
+                // result.value = "로그인 취소";
+            }
         };
         
         onMounted(async () => {
@@ -63,13 +88,16 @@ export default {
             });
             // spinner 로딩 중지
             store.commit("stopLoading");
-            console.log("here", projects.value);
         });
+
         return {
             projects,
             FadeLoader,
             isLoading,
-            showProject
+            showProjectModal,
+            showProjectInfo,
+            project_info_modal,
+            namespace
         }
     }
 }
@@ -90,16 +118,21 @@ td, th {
 body {
     padding: 1rem;
 }
-.proj_name {
-    font-size: 25px;
-    text-align: left;
-    margin-top: 20px;
+.top {
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
 }
-.edit_btn {
+.proj_name {
+    font-size: 20px;
+    text-align: left;
+}
+.proj_edit {
+    font-size: 10px;
     background-color: #E1E6F2;
-    padding: 5px;
     border: 0.5px solid #E1ADF2;
     border-radius: 10px;
+    padding: 5px;
 }
 .loading {
     z-index: 2;
