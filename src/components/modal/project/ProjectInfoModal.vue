@@ -1,33 +1,33 @@
 <template>
     <CommonModal ref="commonModal">
         <div class="content-container">
-            <span class="title">{{ projectNamespace }} 프로젝트</span>
+            <span class="title">{{ namespace }} 프로젝트</span>
         </div>
         <v-form>
             <div class="mx-3">
                 <div class="mx-3">
                     <font-awesome-icon icon="address-card" />
-                    <span class="ml-2">프로젝트명</span>
+                    <span class="ml-2">프로젝트 이름</span>
                 </div>
                 <div class="mx-1">
-                    <v-text-field
-                        :readonly="modify_btn_clicked"
-                        placeholder="아이디"
-                        v-model="projectName"
-                        required
-                    >{{ projectInfo }}</v-text-field>
+                    <div>
+                        <v-text-field
+                            placeholder="프로젝트 이름을 입력해 주세요."
+                            v-model="projectInfo.projectName"
+                            required
+                        ></v-text-field>
+                    </div>
                 </div>
             </div>
             <div class="mx-3">
                 <div class="mx-3">
-                    <font-awesome-icon icon="key" />
-                    <span class="ml-2">Namespace</span>
+                    <font-awesome-icon icon="signature" />
+                    <span class="ml-2">프로젝트 네임스페이스</span>
                 </div>
                 <div class="mx-1">
                     <v-text-field
-                        placeholder="비밀번호"
-                        type="password"
-                        v-model="projectName"
+                        placeholder="네임스페이스를 입력해 주세요."
+                        v-model="projectInfo.projectNamespace"
                         required
                     ></v-text-field>
                 </div>
@@ -40,7 +40,7 @@
                     block
                     @click="modify"
                 >
-                OK
+                수정
                 </v-btn>
             </v-card-actions>
             <v-card-actions>
@@ -51,7 +51,7 @@
                     block
                     @click="cancel"
                 >
-                Cancel
+                취소
                 </v-btn>
             </v-card-actions>
         </v-form>
@@ -70,7 +70,7 @@
 <script>
 import CommonModal from "@/components/modal/common/CommonModal.vue";
 import FadeLoader from 'vue-spinner/src/FadeLoader.vue';
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import axios from "axios";
 
@@ -91,16 +91,20 @@ export default {
         // Promise 객체를 핸들링하기 위한 ref
         const resolvePromise = ref(null);
         let projectName = ref("");
-        const projectNamespace = ref(store.getters.getProjectNamespace);
+        let projectNamespace = ref("");
+        let namespace = computed(() => store.getters.getProjectNamespace);
 
         let projectInfo = ref(null);
-        let modify_btn_clicked = ref(false);
         let isLoading = computed(() => store.getters.getLoading);
+
+        onMounted(() => {
+            getProjectInfo();
+        })
 
         const getProjectInfo = async () => {
             // spinner 로딩 시작
             store.commit("startLoading");
-            await axios.get("https://dev-faker-be.herokuapp.com/project/" + projectNamespace.value, {
+            await axios.get("https://dev-faker-be.herokuapp.com/project/" + namespace.value, {
                 headers: {
                     "accept": 'application/json',
                     "Content-Type": 'application/json',
@@ -110,25 +114,10 @@ export default {
             })
             .then(res => {
                 if (res.status === 200) {
-                    projectInfo.value = {
-                        "projectName": "123",
-                        "projectNamespace": "123",
-                        "projectId": "0b11292c-84db-3e5b-9610-0d53e8e3aa99",
-                        "projectCreated": "2022-05-10T15:47:36.655000",
-                        "projectUpdated": "2022-05-13T13:22:32.291000",
-                        "data": [
-                            {
-                            "dataName": "data6",
-                            "dataPath": "data6",
-                            "dataId": "0c0727c6-ccdf-3a29-a2cf-e423c8c8c518"
-                            },
-                            {
-                            "dataName": "aa",
-                            "dataPath": "aa",
-                            "dataId": "ff14d1c5-9fe4-3f83-bfb1-7fff8fb15ca3"
-                            }
-                        ]
-                    };
+                    projectInfo.value = res.data;
+
+                    projectName.value = projectInfo.value.projectName;
+                    projectNamespace.value = projectInfo.value.projectNamespace;
                 }
             });
             // spinner 로딩 중지
@@ -154,23 +143,26 @@ export default {
             
             // spinner 로딩 시작
             store.commit("startLoading");
-            await axios.post("https://dev-faker-be.herokuapp.com/users/login", {
-                // user_id: userId.value,
-                // user_pw: userPassword.value
+            await axios.put("https://dev-faker-be.herokuapp.com/project", {
+                projectName: projectInfo.value.projectName,
+                projectNamespace: projectInfo.value.projectNamespace,
+                projectId: projectInfo.value.projectId
             }, {
                 headers: {
                     "accept": 'application/json',
                     "Content-Type": 'application/json',
-                    "Access-Control-Allow-Origin" : '*'
+                    "Access-Control-Allow-Origin" : '*',
+                    "Authentication": 'Bearer ' + store.getters.getToken
                 }
             })
             .then(res => {
                 if (res.status === 200) {
-                    var data = res.data;
+                    let data = res.data;
                     console.log(data);
+                    store.commit("getProjectNamespace", projectInfo.value.projectName);
                 }
 
-                // commonModal.value.close();
+                commonModal.value.close();
                 resolvePromise.value(true);
             });
             // spinner 로딩 중지
@@ -188,13 +180,13 @@ export default {
             show, 
             modify, 
             cancel,
-            projectName,
             isLoading,
-            modify_btn_clicked,
+            projectName,
             projectNamespace,
-            projectInfo
+            projectInfo,
+            namespace
         };
-    },
+    }
 };
 </script>
 

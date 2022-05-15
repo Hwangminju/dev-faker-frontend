@@ -11,10 +11,15 @@ loadFonts()
 // font-awesome과 관련된 import를 정의
 import { library } from '@fortawesome/fontawesome-svg-core'
 // 사용할 아이콘 목록 import
-import { faUser, faKey, faCode, faAddressCard } from '@fortawesome/free-solid-svg-icons'
+import { 
+    faUser, faKey, faCode, faAddressCard, 
+    faPen, faFileLines, faSignature 
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faUser, faKey, faCode, faAddressCard)
+library.add(
+    faUser, faKey, faCode, faAddressCard, 
+    faPen, faFileLines, faSignature)
 
 const app = createApp(App)
 
