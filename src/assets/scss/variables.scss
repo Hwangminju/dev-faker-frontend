@@ -1,0 +1,47 @@
+$breakpoint-mobile: 576px;
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1024px;
+$breakpoint-wide-desktop: 1280px;
+
+$sidebar-width: 256px;
+
+$side-breakpoint-mobile: 576px - $sidebar-width;
+$side-breakpoint-tablet: 768px - $sidebar-width;
+$side-breakpoint-desktop: 1024px - $sidebar-width;
+$side-breakpoint-wide-desktop: 1280px - $sidebar-width;
+
+// $navbar-mobile-height: 105px;
+$navbar-mobile-height: 133px;
+$navbar-desktop-height: 63px;
+
+// 아래의 foooter와 body 사이의 padding-bottom 사이즈
+$main-router-padding-bottom: 50px;
+
+// footer 아래의 첼시 툴 아이콘 사이즈
+$footer-icon-size: 15px;
+
+// footer 아래의 첼시 툴 아이콘 배경 사이즈
+$footer-icon-bg-size: 25px;
+
+$form-label-color: #616161;
+
+$form-notice-color: #E53935;
+
+$bg-color-grey1: #ebedef;
+
+$text-cyan: #0097a7;
+$text-amber: #ff8f00;
+$text-light-green: #689f38;
+
+$mypage-width: 1100px;
+
+$ds-color-base-text : #1E3240;
+$ds-color-red : #D84265;
+$ds-color-dgrey: #939ea5;
+$ds-color-blue-deep: #3989BB;
+$ds-color-dark3: #45515B;
+$ds-color-grey-purple: #9C99BD;
+$ds-color-cgrey: #B4C8D5;
+$ds-color-cgrey2: #F4F5FE;
+$ds-color-dark-purple: #3D4167;
+$ds-color-primary: #6C3EC6;

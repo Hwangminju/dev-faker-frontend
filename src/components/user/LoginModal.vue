@@ -1,73 +1,82 @@
 <template>
-    <CommonModal ref="commonModal">
-        <div class="content-container">
-            <span class="title">로그인</span>
+  <CommonModal ref="commonModal">
+    <div class="content-container">
+      <span class="title">로그인</span>
+    </div>
+    <v-form>
+      <!-- ID Template -->
+      <div class="mx-3">
+        <div class="mx-3">
+          <font-awesome-icon icon="user" />
+          <span class="ml-2">ID</span>
         </div>
-        <v-form>
-            <div class="mx-3">
-                <div class="mx-3">
-                    <font-awesome-icon icon="user" />
-                    <span class="ml-2">ID</span>
-                </div>
-                <div class="mx-1">
-                    <v-text-field
-                        placeholder="아이디"
-                        v-model="userId"
-                        required
-                    ></v-text-field>
-                </div>
-            </div>
-            <div class="mx-3">
-                <div class="mx-3">
-                    <font-awesome-icon icon="key" />
-                    <span class="ml-2">Password</span>
-                </div>
-                <div class="mx-1">
-                    <v-text-field
-                        placeholder="비밀번호"
-                        type="password"
-                        v-model="userPassword"
-                        required
-                    ></v-text-field>
-                </div>
-            </div>
-            <v-card-actions>
-                <v-btn
-                    color="#2c4f91"
-                    dark
-                    large
-                    block
-                    @click="submit"
-                >
-                OK
-                </v-btn>
-            </v-card-actions>
-            <v-card-actions>
-                <v-btn
-                    color="#2c4f91"
-                    dark
-                    large
-                    block
-                    @click="cancel"
-                >
-                Cancel
-                </v-btn>
-            </v-card-actions>
-        </v-form>
-        <div class="buttons-container">
-            <!-- <button class="btn confirm" @click="confirm">확인</button> -->
-            <!-- <button class="btn cancel" @click="cancel">취소</button> -->
+        <div class="mx-1">
+          <v-text-field
+            placeholder="아이디"
+            v-model="userId"
+            required
+          ></v-text-field>
         </div>
-        <div v-if="isLoading" class="loading-container">
-            <div class="loading">
-                <FadeLoader />
-            </div>
+      </div>
+
+      <!-- Password Template -->
+      <div class="mx-3">
+        <div class="mx-3">
+          <font-awesome-icon icon="key" />
+          <span class="ml-2">Password</span>
         </div>
-    </CommonModal>
+        <div class="mx-1">
+          <v-text-field
+            placeholder="비밀번호"
+            type="password"
+            v-model="userPassword"
+            required
+          ></v-text-field>
+        </div>
+      </div>
+
+      <!-- OK Button Template -->
+      <v-card-actions>
+        <v-btn
+          color="#2c4f91"
+          dark
+          large
+          block
+          @click="submit"
+        >
+        OK
+        </v-btn>
+      </v-card-actions>
+
+      <!-- Cancel Button Template -->
+      <v-card-actions>
+        <v-btn
+          color="#2c4f91"
+          dark
+          large
+          block
+          @click="cancel"
+        >
+        Cancel
+        </v-btn>
+      </v-card-actions>
+    </v-form>
+    <div class="buttons-container">
+      <!-- <button class="btn confirm" @click="confirm">확인</button> -->
+      <!-- <button class="btn cancel" @click="cancel">취소</button> -->
+    </div>
+
+    <!-- Loading Template -->
+    <div v-if="isLoading" class="loading-container">
+      <div class="loading">
+        <FadeLoader />
+      </div>
+    </div>
+  </CommonModal>
 </template>
 
 <script>
-import CommonModal from "@/components/modal/common/CommonModal.vue";
+import CommonModal from "@/components/user/CommonModal.vue";
 import FadeLoader from 'vue-spinner/src/FadeLoader.vue';
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
@@ -130,8 +139,9 @@ export default {
                         token: data.token
                     });
 
-                    // localStorage.setItem("id", store.getters.getUserId);
-                    // localStorage.setItem("loginStatus", store.getters.getLoginStatus);
+                    localStorage.setItem("userId", store.getters.getUserId);
+                    localStorage.setItem("token", store.getters.getToken);
+                    localStorage.setItem("loginStatus", store.getters.getLoginStatus);
                 }
 
                 commonModal.value.close();

@@ -7,6 +7,7 @@ export default createStore({
         token: '',
         loginStatus: false,
         loading: false,
+        projectName: '',
         projectNamespace: ''
     },
     getters: {
@@ -21,6 +22,9 @@ export default createStore({
         },
         getLoading(state) {
             return state.loading;
+        },
+        getProjectName(state) {
+            return state.projectName;
         },
         getProjectNamespace(state) {
             return state.projectNamespace;
@@ -43,8 +47,9 @@ export default createStore({
         stopLoading(state) {
             state.loading = false;
         },
-        setProjectNamespace(state, value) {
-            state.projectNamespace = value;
+        editProject(state, value) {
+            state.projectName = value.projectName;
+            state.projectNamespace = value.projectNamespace;
         }
     },
     plugins: [

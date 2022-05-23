@@ -22,7 +22,7 @@
 
 <script>
 import { ref } from "vue";
-import CommonModal from "@/components/modal/common/CommonModal.vue";
+import CommonModal from "@/components/user/CommonModal.vue";
 
 export default {
     name: "LogoutModal",
