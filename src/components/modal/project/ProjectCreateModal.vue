@@ -13,7 +13,6 @@
                     <div>
                         <v-text-field
                             placeholder="프로젝트 이름을 입력해 주세요."
-                            v-model="projectInfo.projectName"
                             required
                         ></v-text-field>
                     </div>
@@ -27,7 +26,6 @@
                 <div class="mx-1">
                     <v-text-field
                         placeholder="네임스페이스를 입력해 주세요."
-                        v-model="projectInfo.projectNamespace"
                         required
                     ></v-text-field>
                 </div>
@@ -94,7 +92,7 @@ export default {
         let projectNamespace = ref("");
         let namespace = computed(() => store.getters.getProjectNamespace);
 
-        let projectInfo = ref(null);
+        let projectCreate = ref(null);
         let isLoading = computed(() => store.getters.getLoading);
 
         onMounted(() => {

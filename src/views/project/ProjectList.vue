@@ -2,7 +2,7 @@
     <div class="mt-10">
         <!-- block 안의 inline만 text-align 적용 가능 -->
         <button class="create_btn" id="create_button" v-on:click="btn_create"
-        @click="createNewProject(proj.projectNamespace)">Create</button>
+        @click="createNewProject()">Create</button>
 
         <div>
             <table v-for="proj in projects" :key="proj.projectId" class="mt-5">
@@ -10,8 +10,8 @@
                     <span class="proj_name">{{ proj.projectName }}</span>
                     <button><font-awesome-icon 
                         icon="file-lines"
-                        class="info_btn" 
-                        @click="f(proj.projectNamespace)"
+                        class="info_btn"
+                        @click="showProjectInfo(proj.projectNamespace)"
                     /></button>
                 </div>
                 <tr>
@@ -43,12 +43,14 @@ import { ref, computed, onMounted } from "vue";
 import axios from "axios";
 import { useStore } from "vuex";
 import ProjectInfoModal from "@/components/modal/project/ProjectInfoModal.vue";
+import ProjectCreateModal from "@/components/modal/project/ProjectCreateModal.vue";
 import FadeLoader from 'vue-spinner/src/FadeLoader.vue';
 export default {
     name: 'ProjectList',
     components: {
         FadeLoader,
         ProjectInfoModal,
+        ProjectCreateModal
     },
     setup() {
         const store = useStore();
@@ -91,9 +93,8 @@ export default {
             store.commit("stopLoading");
         })
 
-        const createNewProject = async (projectNamespace) => {
-            window.alert("hi");
-            store.commit("createProjectNamespace", projectNamespace);
+        const createNewProject = async () => {
+            store.commit("createProjectNamespace");
             const ok = await project_create_modal.value.show();
             if (ok) { 
                 console.log("project 생성 완료");
