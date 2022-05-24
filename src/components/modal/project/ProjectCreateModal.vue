@@ -1,7 +1,7 @@
 <template>
     <CommonModal ref="commonModal">
         <div class="content-container">
-            <span class="title">{{ namespace }} 프로젝트</span>
+            <span class="title">새로운 프로젝트</span>
         </div>
         <v-form>
             <div class="mx-3">
@@ -13,6 +13,7 @@
                     <div>
                         <v-text-field
                             placeholder="프로젝트 이름을 입력해 주세요."
+                            v-model="projectName"
                             required
                         ></v-text-field>
                     </div>
@@ -26,6 +27,7 @@
                 <div class="mx-1">
                     <v-text-field
                         placeholder="네임스페이스를 입력해 주세요."
+                        v-model="projectNamespace"
                         required
                     ></v-text-field>
                 </div>
@@ -36,7 +38,7 @@
                     dark
                     large
                     block
-                    @click="modify"
+                    @click="createProject"
                 >
                 생성
                 </v-btn>
@@ -96,31 +98,32 @@ export default {
         let isLoading = computed(() => store.getters.getLoading);
 
         onMounted(() => {
-            getProjectInfo();
+            // createProject();
         })
 
-        const getProjectInfo = async () => {
-            // spinner 로딩 시작
-            store.commit("startLoading");
-            await axios.get("https://dev-faker-be.herokuapp.com/project/" + namespace.value, {
-                headers: {
-                    "accept": 'application/json',
-                    "Content-Type": 'application/json',
-                    "Access-Control-Allow-Origin" : '*',
-                    "Authentication": 'Bearer ' + store.getters.getToken
-                }
-            })
-            .then(res => {
-                if (res.status === 200) {
-                    projectCreate.value = res.data;
+        // const createProjectInfo = async () => {
+        //     // spinner 로딩 시작
+        //     // store.commit("startLoading");
+        //     await axios.get("https://dev-faker-be.herokuapp.com/project/" + namespace.value, {
+        //         headers: {
+        //             "accept": 'application/json',
+        //             "Content-Type": 'application/json',
+        //             "Access-Control-Allow-Origin" : '*',
+        //             "Authentication": 'Bearer ' + store.getters.getToken
+        //         }
+        //     })
+        //     .then(res => {
+        //         if (res.status === 200) {
+        //             projectCreate.value = res.data;
 
-                    projectCreate.value = projectCreate.value.projectName;
-                    projectNamespace.value = projectCreate.value.projectNamespace;
-                }
-            });
-            // spinner 로딩 중지
-            store.commit("stopLoading");
-        };
+        //             projectCreate.value = projectCreate.value.projectName;
+        //             projectNamespace.value = projectCreate.value.projectNamespace;
+        //         }
+        //     });
+        //     // spinner 로딩 중지
+        //     console.log(projectCreate.value.projectName);
+        //     store.commit("stopLoading");
+        // };
 
         const show = () => {
             // commonModal을 직접 컨트롤합니다.
@@ -129,22 +132,22 @@ export default {
             // 응답이 돌아가기 전까지 작업을 기다리게 할 수 있습니다.
 
             return new Promise((resolve) => {
-                getProjectInfo();
+                // createProjectInfo();
                 // resolve 함수를 담아 외부에서 사용합니다.
                 resolvePromise.value = resolve;
             });
         };
 
-        const modify = async () => {
+        const createProject = async () => {
             // 사용자 로그인 정보 담아서 부모 컴포넌트로 전달
             // json-server --watch mock.json
-            
+            console.log(projectName.value,projectNamespace.value);
             // spinner 로딩 시작
-            store.commit("startLoading");
-            await axios.put("https://dev-faker-be.herokuapp.com/project", {
-                projectName: projectCreate.value.projectName,
-                projectNamespace: projectCreate.value.projectNamespace,
-                projectId: projectCreate.value.projectId
+            //store.commit("startLoading");
+            await axios.post("https://dev-faker-be.herokuapp.com/project", {
+                projectName: projectName.value,
+                projectNamespace: projectNamespace.value,
+                // projectId: projectCreate.value.projectId
             }, {
                 headers: {
                     "accept": 'application/json',
@@ -172,11 +175,12 @@ export default {
             resolvePromise.value(false);
         };
 
+
         return { 
             commonModal,
             FadeLoader,
             show, 
-            modify, 
+            createProject, 
             cancel,
             isLoading,
             projectName,

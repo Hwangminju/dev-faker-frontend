@@ -177,8 +177,8 @@ export default {
         return { 
             commonModal,
             FadeLoader,
-            show, 
-            modify, 
+            show,
+            modify,
             cancel,
             isLoading,
             projectName,
