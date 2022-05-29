@@ -1,9 +1,9 @@
 <template>
     <CommonModal ref="commonModal">
         <div class="content-container">
-            <span class="title">로그인</span>
+            <span class="title">REGISTER</span>
         </div>
-        <v-form>
+        <v-form class="mt-3">
             <div class="mx-3">
                 <div class="mx-3">
                     <font-awesome-icon icon="user" />
@@ -31,6 +31,11 @@
                     ></v-text-field>
                 </div>
             </div>
+
+            <div v-if="isDuplicatedUser" class="duplicated-user">
+                <p>중복된 아이디입니다.<br />다른 아이디로 시도해 주세요.</p>
+            </div>
+
             <v-card-actions>
                 <v-btn
                     color="#2c4f91"
@@ -54,36 +59,26 @@
                 </v-btn>
             </v-card-actions>
         </v-form>
-        <div class="buttons-container">
-            <!-- <button class="btn confirm" @click="confirm">확인</button> -->
-            <!-- <button class="btn cancel" @click="cancel">취소</button> -->
-        </div>
-        <div v-if="isLoading" class="loading-container">
-            <div class="loading">
-                <FadeLoader />
-            </div>
-        </div>
     </CommonModal>
 </template>
 
 <script>
-import CommonModal from "@/components/modal/common/CommonModal.vue";
-import FadeLoader from 'vue-spinner/src/FadeLoader.vue';
-import { ref, computed } from "vue";
-import { useStore } from "vuex";
+import CommonModal from "@/components/user/CommonModal.vue";
+import { ref } from "vue";
+// import { useStore } from "vuex";
 import axios from "axios";
 
 export default {
-    name: "LoginModal",
+    name: "RegisterModal",
     components: {
-        CommonModal, FadeLoader
+        CommonModal,
     },
     // 렌더링할 텍스트를 가져옵니다.
     props: {
         content: Array,
     },
     setup() {
-        const store = useStore();
+        // const store = useStore();
 
         // 자식 컴포넌트(CommonModal)를 핸들링하기 위한 ref
         const commonModal = ref(null);
@@ -92,7 +87,8 @@ export default {
         let userId = ref("");
         let userPassword = ref("");
 
-        let isLoading = computed(() => store.getters.getLoading);
+        // 중복된 아이디 여부 체크
+        let isDuplicatedUser = ref(false);
 
         const show = () => {
             // commonModal을 직접 컨트롤합니다.
@@ -108,10 +104,7 @@ export default {
         const submit = async () => {
             // 사용자 로그인 정보 담아서 부모 컴포넌트로 전달
             // json-server --watch mock.json
-            
-            // spinner 로딩 시작
-            store.commit("startLoading");
-            await axios.post("https://dev-faker-be.herokuapp.com/users/login", {
+            await axios.put("https://dev-faker-be.herokuapp.com/users", {
                 user_id: userId.value,
                 user_pw: userPassword.value
             }, {
@@ -123,38 +116,50 @@ export default {
             })
             .then(res => {
                 if (res.status === 200) {
-                    let data = res.data;
-                    // 로그인 성공시 처리해줘야할 부분
-                    store.commit("setUserInfo", {
-                        userId: userId.value,
-                        token: data.token
-                    });
+                    console.log("register success");
+                    // 로그인 성공 시 아이디 중복 여부 false로 초기화
+                    isDuplicatedUser.value = false;
 
-                    // localStorage.setItem("id", store.getters.getUserId);
-                    // localStorage.setItem("loginStatus", store.getters.getLoginStatus);
+                    // 입력창 초기화
+                    userId.value = "";
+                    userPassword.value = "";
+                    // 아이디 중복 메세지 초기화
+                    isDuplicatedUser.value = false;
                 }
 
                 commonModal.value.close();
                 resolvePromise.value(true);
+            })
+            .catch(err => {
+                if (err.response.data.result === false) {
+                    // 입력창 초기화
+                    userId.value = "";
+                    userPassword.value = "";
+                    
+                    isDuplicatedUser.value = true;
+                }
             });
-            // spinner 로딩 중지
-            store.commit("stopLoading");
         };
 
         const cancel = () => {
+            // 입력창 초기화
+            userId.value = "";
+            userPassword.value = "";
+            // 아이디 중복 메세지 초기화
+            isDuplicatedUser.value = false;
+
             commonModal.value.close();
             resolvePromise.value(false);
         };
 
         return { 
-            commonModal,
-            FadeLoader,
+            commonModal, 
             show, 
             submit, 
             cancel,
             userId,
             userPassword,
-            isLoading
+            isDuplicatedUser
         };
     },
 };
@@ -167,12 +172,10 @@ export default {
 .title {
     font-size: 25px;
 }
-.loading {
-    z-index: 2;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: rgba(0, 0, 0, 0.1) 0 0 0 9999px;
+.duplicated-user {
+    font-size: 0.875rem;
+    color: #9e241b;
+    padding: 0.75rem;
+    text-align: center;
 }
 </style>

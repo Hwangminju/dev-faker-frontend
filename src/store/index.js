@@ -7,7 +7,8 @@ export default createStore({
         token: '',
         loginStatus: false,
         loading: false,
-        projectNamespace: ''
+        projectName: '',
+        projectNamespace: '',
     },
     getters: {
         getUserId(state) {
@@ -22,12 +23,15 @@ export default createStore({
         getLoading(state) {
             return state.loading;
         },
+        getProjectName(state) {
+            return state.projectName;
+        },
         getProjectNamespace(state) {
             return state.projectNamespace;
         }
     },
     mutations: {
-        setUserInfo(state, value)  {
+        setUserInfo(state, value) {
             state.userId = value.userId;
             state.token = value.token;
             state.loginStatus = true;
@@ -43,12 +47,12 @@ export default createStore({
         stopLoading(state) {
             state.loading = false;
         },
-        setProjectNamespace(state, value) {
-            state.projectNamespace = value;
+        // 수정된 프로젝트
+        modifyProject(state, value) {
+            state.projectNamespace = value.projectNamespace;
         }
     },
     plugins: [
         createPersistedState()
     ]
 });
- 

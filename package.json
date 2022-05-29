@@ -37,6 +37,7 @@
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
     "json-server": "^0.17.0",
+    "prettier": "2.6.2",
     "sass": "^1.38.0",
     "sass-loader": "^10.0.0",
     "vue-cli-plugin-vuetify": "~2.4.8",
@@ -54,7 +55,9 @@
     "parserOptions": {
       "parser": "@babel/eslint-parser"
     },
-    "rules": {}
+    "rules": {
+      "vue/multi-word-component-names": 0
+    }
   },
   "browserslist": [
     "> 1%",

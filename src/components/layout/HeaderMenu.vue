@@ -1,5 +1,5 @@
 <template>
-    <v-row class="header">
+    <!-- <v-row class="header">
         <div class="inline">
             <button class="title">
                 <font-awesome-icon icon="code" class="title_icon" />
@@ -26,25 +26,52 @@
                 <span class="user">{{ logined.user }} 님 환영합니다</span>
             </div>
         </div>
-    </v-row>
+    </v-row> -->
+    <div class="header-menu">
+        <div class="logo">
+            <router-link to="/">
+                <font-awesome-icon icon="code" class="logo-icon"/><span class="logo-text">Dev-Faker</span>
+            </router-link>
+        </div>
+        <div class="menus">
+            <a href="">Guide</a>
+
+            <!-- Login Status -->
+            <template v-if="logined.status === false">
+                <button @click="doRegister"><span>회원가입</span></button>
+                <button @click="doLogin"><span>로그인</span></button>
+            </template>
+
+            <!-- Logout Status -->
+            <template v-else>
+                <router-link to="/project-list">
+                    <span>프로젝트</span>
+                </router-link>
+                <button @click="doLogout"><span>로그아웃</span></button>
+                <p>
+                    <font-awesome-icon icon="user" class="mr-2"/>
+                    <span class="user">{{ logined.user }} 님 환영합니다</span>
+                </p>    
+            </template>   
+        </div>
+    </div>
     <LoginModal ref="login_modal" />
     <LogoutModal ref="logout_modal" />
     <RegisterModal ref="register_modal" />
 </template>
 
 <script>
-import { ref, computed } from "vue";
-import LoginModal from "@/components/modal/user/LoginModal.vue";
-import LogoutModal from "@/components/modal/user/LogoutModal.vue";
-import RegisterModal from "@/components/modal/user/RegisterModal.vue";
+
+import { ref, computed, defineComponent, defineAsyncComponent} from "vue";
 import { useStore } from "vuex";
 import router from "@/router";
-export default {
+
+export default defineComponent({
     name: "App",
     components: {
-        LoginModal,
-        LogoutModal,
-        RegisterModal
+        LoginModal: defineAsyncComponent(() => import('@/components/user/LoginModal.vue')),
+        LogoutModal: defineAsyncComponent(() => import('@/components/user/LogoutModal.vue')),
+        RegisterModal: defineAsyncComponent(() => import('@/components/user/RegisterModal.vue')),
     },
     setup() {
         const store = useStore();
@@ -71,12 +98,11 @@ export default {
             const ok = await logout_modal.value.show();
             if (ok) {
                 store.commit("removeUserInfo");
+                store.commit("stopLoading");
                 
                 router.push({name: 'MainView'});
-                localStorage.removeItem('vuex');
-                store.commit("stopLoading");
-                // localStorage.removeItem('id');
-                // localStorage.removeItem('loginStatus');
+                // localStorage 초기화
+                localStorage.clear();
             }
         }
 
@@ -99,12 +125,12 @@ export default {
             logined
         };
     },
-};
+})
 // https://kyounghwan01.github.io/blog/Vue/vue3/composition-api-vuex/#전역-action-mutation-실행
 </script>
 
 <style scoped>
-.title {
+/* .title {
     font-size: 40px;
 }
 .menu {
@@ -128,5 +154,43 @@ a {
 }
 .title_icon {
     margin-right: 10px;
+} */
+
+.header-menu {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 1rem 2rem;  
+    background-color: #f3f3f3; 
+}
+
+.header-menu .logo {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+}
+
+.header-menu .logo .logo-text {
+    margin-left: 1rem;
+}
+
+.header-menu .logo a {
+    color: #000;
+    text-decoration: none;
+}
+
+.header-menu .menus {
+    display: flex;
+    align-items: center;
+}
+
+.header-menu .menus a,
+.header-menu .menus button,
+.header-menu .menus p {
+    color: #343434;
+    font-size: 1rem;
+    padding: 0.5rem 1.5rem;
+    text-decoration: none;
+    font-weight: 500;
 }
 </style>
